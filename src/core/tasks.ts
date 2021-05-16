@@ -1,9 +1,9 @@
-import Discord from "discord.js";
+import { Client } from "discord.js";
 export default class tasks {
-    public bot: Discord.Client;
+    public bot: Client;
     public tasklist = [];
-    
-    constructor(bot: Discord.Client) {
+
+    constructor(bot: Client) {
         this.bot = bot;
         this.tasklist = [];
     }
@@ -13,7 +13,7 @@ export default class tasks {
         });
     }
     private task(fun: Function, time: number, nember: number) {
-        let bot: Discord.Client = this.bot;
+        let bot: Client = this.bot;
         let sleep = this.sleep
         async function task_loop() {
             try {
