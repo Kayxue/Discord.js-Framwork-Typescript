@@ -39,7 +39,7 @@ export default class BotClient extends Client {
         Object.assign(this.commands, groups);
         if (!this.categoryReload) {
             let events = obj.eventretuen();
-            for (let event of events) {
+            for (let file of events) {
                 try {
                     let w = function (fun) {
                         return function (...a) {
@@ -50,9 +50,9 @@ export default class BotClient extends Client {
                             }
                         }
                     }
-                    this.on(event.event, w(event.run))
+                    this.on(file.event, w(file.run))
                 } catch (error) {
-                    console.log(`file:${event.event}\nError:\n\n${error}`)
+                    console.log(`file:${file.event}\nError:\n\n${error}`)
                 }
             }
             this.tasks.push(obj.tasks);
