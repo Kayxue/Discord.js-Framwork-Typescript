@@ -26,6 +26,9 @@ export default function setup(bot: Client) {
     commands.listener(function message(msg: Message) {
         console.log(`on_message:${msg.author.tag}:${msg.content}`)
     })
+    commands.listener((msg: Message) => {
+        console.log("OK")
+    }, { event: "message" })
     //group用法
     let e = commands.group(async function wq(msg: Message) {
         console.log(msg.content)
@@ -35,7 +38,7 @@ export default function setup(bot: Client) {
         msg.channel.send(error.toString())
     })
 
-    let r = e.command(async function rr(msg: Message, x:string) {
+    let r = e.command(async function rr(msg: Message, x: string) {
         commands.is_owner(msg)
         commands.bot
         await msg.channel.send("e.r")

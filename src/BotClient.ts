@@ -39,7 +39,7 @@ export default class BotClient extends Client {
         Object.assign(this.commands, groups);
         if (!this.categoryReload) {
             let events = obj.eventretuen();
-            for (let file of events) {
+            for (let event of events) {
                 try {
                     let w = function (fun) {
                         return function (...a) {
@@ -50,9 +50,9 @@ export default class BotClient extends Client {
                             }
                         }
                     }
-                    this.on(file.name, w(file))
+                    this.on(event.event, w(event.run))
                 } catch (error) {
-                    console.log(`file:${file.name}\nError:\n\n${error}`)
+                    console.log(`file:${event.event}\nError:\n\n${error}`)
                 }
             }
             this.tasks.push(obj.tasks);
@@ -77,7 +77,7 @@ export default class BotClient extends Client {
         }
     }
 
-    public ReloadCog = () => {
+    public ReloadCog() {
         this.CogDict = {};
         this.commands = {};
         this.commandse = {};

@@ -1,12 +1,21 @@
 import tasks from "./tasks"
 import CommandError from "./commanderror"
-import { Message, Client } from "discord.js"
+import { Message, Client, ClientEvents } from "discord.js"
 
 interface CommandDict {
     name?: string,
     aliases?: string[],
     help?: any,
     brief?: any
+}
+
+interface Events {
+    event: string
+    run: (...args) => any
+}
+
+interface EventDict {
+    event: keyof ClientEvents
 }
 
 class command {
@@ -110,7 +119,7 @@ export default class Commands {
     public tasks: tasks;
     public name: string;
     private commands = {}
-    private event: Function[] = []
+    private event: Events[] = []
     private commandlist: command[] = []
     private grouplist: Group[] = []
     public constructor(bot: Client, name?: string) {
@@ -123,6 +132,7 @@ export default class Commands {
         }
     }
     public command(fun: Function, dict?: CommandDict) {
+        console.log(fun.name, fun.name === null)
         if (fun.name !== null) {
             let commandw: command;
             dict = dict ?? {}
@@ -146,8 +156,12 @@ export default class Commands {
         }
         return this.commands
     }
-    public listener(fun: Function) {
-        this.event.push(fun)
+    public listener(fun: (...args) => any, dict?: EventDict) {
+        const event: Events = {
+            event: dict?.event ?? fun.name,
+            run: fun
+        }
+        this.event.push(event)
     }
     public eventretuen() {
         return this.event

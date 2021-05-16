@@ -15,5 +15,8 @@ export default (bot: Discord.Client) => {
             console.log(e);
         }
     }, { name: "reload" });
+    commands.listener((msg: Message) => {
+        console.log("OK")
+    }, { event: "message" })
     bot.AddCog(commands);
 }
