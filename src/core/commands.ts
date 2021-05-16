@@ -1,6 +1,6 @@
 import tasks from "./tasks"
 import CommandError from "./commanderror"
-import Discord, { Message } from "discord.js"
+import { Message, Client } from "discord.js"
 
 interface CommandDict {
     name?: string,
@@ -106,30 +106,30 @@ class Group {
 }
 
 export default class Commands {
-    public bot: Discord.Client;
+    public bot: Client;
     public tasks: tasks;
     public name: string;
     private commands = {}
     private event: Function[] = []
     private commandlist: command[] = []
     private grouplist: Group[] = []
-    public constructor(bot: Discord.Client, name: string = null) {
+    public constructor(bot: Client, name?: string) {
         this.bot = bot
         this.tasks = new tasks(bot)
-        if (name !== null) {
+        if (name) {
             this.name = name
         } else {
             this.name = this.constructor.name
         }
     }
-    public command(fun: Function, dict: CommandDict = null) {
+    public command(fun: Function, dict?: CommandDict) {
         if (fun.name !== null) {
             let commandw: command;
-            dict = dict || {}
-            dict.name = dict.name || null;
-            dict.aliases = dict.aliases || null;
-            dict.help = dict.help || null;
-            dict.brief = dict.brief || null;
+            dict = dict ?? {}
+            dict.name = dict?.name ?? null;
+            dict.aliases = dict?.aliases ?? null;
+            dict.help = dict?.help ?? null;
+            dict.brief = dict?.brief ?? null;
 
             if (dict.name !== null) {
                 commandw = new command(fun, dict.name, dict.aliases, dict.help, dict.brief)
@@ -155,16 +155,16 @@ export default class Commands {
     public cogreturn() {
         return this.commandlist;
     }
-    public group(fun: Function, dict = null) {
-        dict = dict || {}
-        dict.name = dict.name || null;
-        dict.aliases = dict.aliases || null;
-        dict.help = dict.help || null;
-        dict.brief = dict.brief || null;
+    public group(fun: Function, dict?: CommandDict) {
+        dict = dict ?? {}
+        dict.name = dict?.name ?? null;
+        dict.aliases = dict?.aliases ?? null;
+        dict.help = dict?.help ?? null;
+        dict.brief = dict?.brief ?? null;
         if (dict.name === null) {
             dict.name = fun.name
         }
-        if (fun.name !== null) {
+        if (fun.name) {
             let group = new Group(fun, dict.name, dict.aliases, dict.help, dict.brief)
             this.commandlist.push(group)
             this.grouplist.push(group)
