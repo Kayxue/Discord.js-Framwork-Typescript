@@ -40,7 +40,6 @@ export default function setup(bot: Client) {
 
     let r = e.command(async function rr(msg: Message, x: string) {
         commands.is_owner(msg)
-        commands.bot
         await msg.channel.send("e.r")
     }, { aliases: ["ep", "qq"] })
 

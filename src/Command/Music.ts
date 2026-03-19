@@ -39,7 +39,7 @@ class PlayList {
     constructor(id: string) {
         this.id = id
         this.songlist = []
-        this.nowplay
+        this.nowplay = null
         this.skip = false
         this.play = false
         this.dispatcher = null
